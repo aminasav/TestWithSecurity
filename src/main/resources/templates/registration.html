@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title> registration </title>
 </head>
 <body>
 <h1>Регистрация</h1>
-<form th:action="@{/registration}" method="post" th:object="${user}">
+
+<form th:action="@{/registration}" method="post" th:object="${user}" >
+  <div th:if="${#fields.hasErrors()}"style="color: red">
+        <span class="validationError">
+        Исправьте указанные ниже проблемы и попробуйте снова.
+        </span>
+  </div>
   <div>
-  <input th:field="*{name}" type="text" name="name" id="name" placeholder="name">
-    </div>
+  <input th:field="*{name}" type="text" name="name" id="name" placeholder="name" >
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+
+  </div>
     <div>
   <input th:field="*{email}" type="text" name="email" id="email" placeholder="email">
+      <span class="validationError"
+            th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</span>
     </div>
     <div>
   <input th:field="*{password}" type="password" name="password" id="password" placeholder="password">
+      <span class="validationError"
+            th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</span>
     </div>
   <input type="submit" value="зарегистрироваться">
 </form>

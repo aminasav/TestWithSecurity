@@ -2,9 +2,11 @@ package com.example.testwithsecurity.controllers;
 
 import com.example.testwithsecurity.entity.UserEntity;
 import com.example.testwithsecurity.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,10 @@ public class RegistrationController {
         return "registration";
     }
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user") UserEntity user, Model model){
+    public String registration(@ModelAttribute("user") @Valid UserEntity user, Errors errors){
+        if(errors.hasErrors()){
+            return "registration";
+        }
         userService.saveUser(user);
         return "redirect:/login";
     }
